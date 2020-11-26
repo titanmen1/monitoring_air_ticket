@@ -1,13 +1,6 @@
 import requests
 import json
-
-token = 'faffb19c5eddc4e30957762929007cc1'
-currency = 'rub'
-origin = 'mow'
-destination = 'bcn'
-beginning_of_period = '2020-12-01'
-one_way = 'true'
-
+import const
 
 # xxx = requests.get('http://api.travelpayouts.com/v2/prices/latest?currency={}&origin={}&destination={}&beginning_of_period={}&one_way={}&page=1&limit=10&show_'
 #                    'to_affiliates=true&sorting=price&token={}'.format(token))
@@ -19,10 +12,10 @@ def search_air_ticket(origin, destination):
     # Последние за 48 часов цены
     data = requests.get(
         'http://api.travelpayouts.com/v2/prices/latest?currency={}&origin={}&destination={}&beginning_of_period={}'
-        '&one_way={}&page=1&limit=1000&show_to_affiliates=true&sorting=price&token={}'.format(currency, origin,
+        '&one_way={}&page=1&limit=1000&show_to_affiliates=true&sorting=price&token={}'.format(const.currency, origin,
                                                                                             destination,
-                                                                                            beginning_of_period,
-                                                                                            one_way, token))
+                                                                                            const.beginning_of_period,
+                                                                                            const.one_way, const.token))
 
     datat = []
     print(data.text)

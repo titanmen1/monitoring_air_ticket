@@ -30,14 +30,23 @@ def send_message(origin, destination):
 def main():
     update_id = None
     while True:
-        message = get_last_update(update_id)
-        if message:
-            for mes in message:
-                print(mes)
-                update_id = mes['update_id']
-                data_text = mes['message']['text'].split(' ')
-                send_message(data_text[0], data_text[1])
+        try:
+            message = get_last_update(update_id)
+            if message:
+                for mes in message:
+                    print(mes)
+                    update_id = mes['update_id']
+                    data_text = mes['message']['text'].split(' ')
+                    send_message(data_text[0], data_text[1])
+
+
+        except Exception as e:
+            print(e)
+            continue
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(e)
