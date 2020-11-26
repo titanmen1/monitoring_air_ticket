@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 import requests
 from main import search_air_ticket
+import const
 
-url = "https://api.telegram.org/bot1493989548:AAGzaIHRvcTP40tLZ5rGnInP-FvnQKNm4VI/"
+url = "https://api.telegram.org/bot{}/".format(const.api_bot_telegram)
 
 
 def get_last_update(offset):
@@ -38,7 +40,6 @@ def main():
                     update_id = mes['update_id']
                     data_text = mes['message']['text'].split(' ')
                     send_message(data_text[0], data_text[1])
-
 
         except Exception as e:
             print(e)
