@@ -1,3 +1,5 @@
 venv
 .idea
 .git
+conf_dev.cfg
+env_dev.env

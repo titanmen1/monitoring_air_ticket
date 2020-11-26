@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import requests
+import json
 from main import search_air_ticket
 import const
+from util import create_button_for_buy
 
 url = "https://api.telegram.org/bot{}/".format(const.api_bot_telegram)
 
@@ -20,12 +22,13 @@ def update_message():
     return xx.text
 
 
-def send_message(origin, destination):
-    data = search_air_ticket(origin, destination)
-    requests.get(url + 'sendMessage?chat_id=296765474&text={}'.format('Цена: {} руб. Дата вылета {}. Время полета '
+def send_message(origin, destination, beginning_of_period):
+    data = search_air_ticket(origin, destination, beginning_of_period)
+    button_buy = create_button_for_buy(data)
+    requests.get(url + 'sendMessage?chat_id=296765474&text={}&reply_markup={}'.format('Цена: {} руб. Дата вылета {}. Время полета '
                                                                            '{}.'.format(data[0]['value'],
                                                                                         data[0]['depart_date'],
-                                                                                        data[0]['duration'])))
+                                                                                        data[0]['duration']), button_buy))
     return True
 
 
@@ -39,7 +42,9 @@ def main():
                     print(mes)
                     update_id = mes['update_id']
                     data_text = mes['message']['text'].split(' ')
-                    send_message(data_text[0], data_text[1])
+                    if len(data_text) == 2:
+                        data_text.append(const.beginning_of_period)
+                    send_message(data_text[0], data_text[1], data_text[2])
 
         except Exception as e:
             print(e)
